@@ -33,13 +33,21 @@ interface SpacingGetter { (value: number): number }
 
 interface MyTheme {
   colors: {
-    primary: string,
-    secondary: string,
-    background: string,
-    accentColor: string,
-    common: {
-      black: string,
-      white: string
+    light: {
+      veryLightGray: string,
+      darkGrayishBlue: string,
+      lightGrayishBlue: string,
+      veryDarkGrayishBlue: string,
+      veryLightGrayishBlue: string,
+    },
+    dark: {
+      veryDarkBlue: string,
+      veryDarkDesaturatedBlue: string,
+      lightGrayishBlue: string,
+      lightGrayishBlueHover: string,
+      darkGrayishBlue: string,
+      veryDarkGrayishBlue: string,
+      veryDarkGrayishBlueHover: string,
     }
   },
   fonts: {
