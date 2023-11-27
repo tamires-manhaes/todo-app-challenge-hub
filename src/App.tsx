@@ -1,35 +1,60 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { FunctionComponent, MouseEvent, useContext, useEffect, useState } from 'react'
+import { ToDoContext } from './contexts/ToDo';
+import * as S from './styles';
+import { createTodo } from './services';
+import Container from './components/Container';
+import Input from './components/Input';
+import TaskItem from './components/TaskItem';
 
-function App() {
-  const [count, setCount] = useState(0)
+const App: FunctionComponent = () => {
+  const [value, setValue] = useState<string>('');
+  const { todoCounter, getAllToDos, todos } = useContext(ToDoContext);
+
+  const handleClick = async (e: MouseEvent) => {
+    e.preventDefault();
+    await createTodo(value);
+    await getAllToDos();
+    setValue('');
+  }
+
+  useEffect(() => {
+    (async () => {
+      await getAllToDos();
+    })()
+  }, [])
 
   return (
-    <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
+    <Container>
+      <h1>T O D O</h1>
+      <Input 
+        value={value}
+        type='text'
+        onChange={e => setValue(e.target.value)}
+        onClick={handleClick}
+      />
+      <S.Content>
+        <S.List>
+          {todos.map((todo) => {
+            return (
+              <TaskItem 
+                key={todo.id}
+                id={todo.id}
+                task={todo.task}
+                isDone={todo.is_done}
+              />
+            )
+          })}
+
+        </S.List>
+        {todoCounter > 0 && (
+          <S.Footer>
+            <span>{todoCounter} items left</span>
+          </S.Footer>
+          )}
+      </S.Content>
+    </Container>
+    
   )
-}
+} 
 
 export default App
