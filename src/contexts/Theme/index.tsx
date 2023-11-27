@@ -1,7 +1,7 @@
-import React, { FunctionComponent, ReactNode, useMemo } from 'react';
-import { ThemeProvider as EmotionThemeProvider, useTheme } from '@emotion/react';
+import { FunctionComponent, ReactNode, useMemo } from 'react';
+import { DefaultTheme, ThemeProvider as StyledThemeProvider, useTheme } from 'styled-components';
 
-import { theme as defaultTheme, Theme } from '../Theme';
+import { myTheme as defaultTheme, Theme } from '../../theme';
 import { isObjEmpty } from '../../utils/objIsEmpty';
 
 interface OwnProps {
@@ -9,15 +9,15 @@ interface OwnProps {
   children: ReactNode
 }
 
-export const ThemeProvide: FunctionComponent<OwnProps> = ({ children, theme }) => {
+export const ThemeProvider: FunctionComponent<OwnProps> = ({ children, theme }) => {
   return (
-    <EmotionThemeProvider theme={theme || defaultTheme}>
+    <StyledThemeProvider theme={theme}>
       {children}
-    </EmotionThemeProvider>
+    </StyledThemeProvider>
   )
 }
 
-export const useThemeContext = (): Theme => {
+export const useThemeContext = (): Theme | DefaultTheme => {
   const contextTheme = useTheme();
 
   const theme = useMemo(

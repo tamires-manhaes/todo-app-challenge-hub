@@ -1,7 +1,7 @@
 import { useMemo } from "react";
 import { useTheme } from '@emotion/react'
 import { isObjEmpty } from "@/utils/objIsEmpty";
-import { theme as defaultTheme, Theme } from '.';
+import { myTheme as defaultTheme, Theme } from '../../theme/index';
 
 const useThemeContext = (): Theme => {
   const contextTheme = useTheme();
